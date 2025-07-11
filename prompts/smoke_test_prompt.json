@@ -1,0 +1,13 @@
+{
+  "description": "Prompt to generate smoke test script for post-deployment validation.",
+  "tasks": [
+    {
+      "name": "delta_table_check",
+      "logic": "Verify record count and freshness in gold Delta table 'retail_sales_gold'"
+    },
+    {
+      "name": "job_status_check",
+      "logic": "Query last run status of 'retail-etl-job'"
+    }
+  ]
+}

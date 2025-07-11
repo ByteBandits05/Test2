@@ -1,0 +1,28 @@
+{
+  "layer": "CI/CD",
+  "source_files": [".databricks/databricks.yml", "notebooks/*.py"],
+  "tasks": [
+    {
+      "name": "static_analysis",
+      "logic": "run pylint on notebooks/*.py"
+    },
+    {
+      "name": "unit_tests",
+      "logic": "run pytest on tests/*.py"
+    },
+    {
+      "name": "dab_validation",
+      "logic": "run databricks bundle validate"
+    },
+    {
+      "name": "deployment",
+      "logic": "run databricks bundle deploy with OIDC authentication"
+    },
+    {
+      "name": "smoke_tests",
+      "logic": "run scripts/smoke_tests.py"
+    }
+  ],
+  "environment": ["dev", "qa", "prod"],
+  "output_file": "cicd_pipeline.yml"
+}

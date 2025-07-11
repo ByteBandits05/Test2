@@ -1,0 +1,20 @@
+[
+  {
+    "source_prompt": "cicd_pipeline_prompt.json",
+    "source_field": "static_analysis",
+    "target_file": "cicd_pipeline.yml",
+    "target_step": "Run Pylint",
+    "transformation": "generate_step: run: pylint notebooks/*.py",
+    "data_type": "yaml",
+    "quality_check": "not empty"
+  },
+  {
+    "source_prompt": "dab_config_prompt.json",
+    "source_field": "jobs",
+    "target_file": "databricks.yml",
+    "target_section": "jobs",
+    "transformation": "generate_yaml_section: jobs",
+    "data_type": "yaml",
+    "quality_check": "must_contain_job_key"
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "description": "Prompt to generate Databricks Asset Bundle configuration for multi-environment deployments.",
+  "jobs": [
+    {
+      "name": "retail-etl-job",
+      "tasks": [
+        {
+          "task_key": "process-retail-data",
+          "notebook_path": "notebooks/retail_processing.py",
+          "cluster": "shared-cluster",
+          "libraries": []
+        }
+      ],
+      "schedule": "0 5 * * *"
+    }
+  ],
+  "clusters": [
+    {
+      "name": "shared-cluster",
+      "spark_version": "13.3.x-scala2.12",
+      "node_type_id": "Standard_DS3_v2",
+      "num_workers": 4,
+      "autotermination_minutes": 30
+    }
+  ],
+  "delta_tables": [
+    {
+      "name": "retail_sales_gold",
+      "location": "/mnt/data/gold/retail_sales"
+    }
+  ],
+  "environment_variables": {
+    "dev": {
+      "DATABRICKS_TOKEN": "${{ secrets.DATABRICKS_DEV_TOKEN }}"
+    },
+    "qa": {
+      "DATABRICKS_TOKEN": "${{ secrets.DATABRICKS_QA_TOKEN }}"
+    },
+    "prod": {
+      "DATABRICKS_TOKEN": "${{ secrets.DATABRICKS_PROD_TOKEN }}"
+    }
+  },
+  "permissions": [
+    {
+      "resource": "retail-etl-job",
+      "users": [
+        {
+          "principal": "data-engineers",
+          "permission_level": "CAN_MANAGE"
+        }
+      ]
+    }
+  ]
+}
